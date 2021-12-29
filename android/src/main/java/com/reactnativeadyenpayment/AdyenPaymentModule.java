@@ -1,47 +1,51 @@
 package com.reactnativeadyenpayment;
 
-import android.app.Application;
+import android.app.Activity;
+import android.content.Intent;
 
 import androidx.annotation.NonNull;
-
-import com.adyen.checkout.redirect.RedirectComponent;
-import com.facebook.react.bridge.Promise;
-import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactContextBaseJavaModule;
-import com.facebook.react.bridge.ReactMethod;
-import com.facebook.react.module.annotations.ReactModule;
-import adyen.com.adyencse.encrypter.exception.EncrypterException;
-
-import adyen.com.adyencse.pojo.Card;
-import java.util.Date;
-
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
+import com.adyen.checkout.card.CardComponent;
+import com.adyen.checkout.card.CardConfiguration;
 import com.adyen.checkout.core.api.Environment;
-import com.adyen.checkout.redirect.RedirectConfiguration;
+import com.adyen.checkout.cse.Card;
+import com.adyen.checkout.cse.EncryptedCard;
+import com.adyen.checkout.cse.Encryptor;
+import com.facebook.react.bridge.*;
+import com.facebook.react.modules.core.DeviceEventManagerModule;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+
+import android.net.Uri;
+import android.util.Log;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-@ReactModule(name = AdyenPaymentModule.NAME)
 public class AdyenPaymentModule extends ReactContextBaseJavaModule {
-    public static final String NAME = "AdyenPayment";
-
-    public AdyenPaymentModule(ReactApplicationContext reactContext) {
-        super(reactContext);
-    }
-
-    @Override
     @NonNull
+    @Override
     public String getName() {
-        return NAME;
+        return AdyenCryptCard.class.getSimpleName();
     }
 
-    // @ReactMethod void openRedirect(String publicKey) {
-    //   RedirectConfiguration redirectConfiguration = RedirectConfiguration.Builder(context, publicKey)
-    //         .setEnvironment(Environment.TEST)
-    //         .build();
-    //   Application application = new AdyenPaymentModule();
-    //   RedirectComponent redirectComponent = RedirectComponent.PROVIDER.get(this.getCurrentActivity(), application, redirectConfiguration);
-    // }
+    CardConfiguration cardConfiguration;
+    public static AdyenCryptCard INSTANCE = null;
+
+
+    public AdyenCryptCard(@NonNull ReactApplicationContext reactContext) {
+        super(reactContext);
+        AdyenCryptCard.INSTANCE = this;
+    }
 
     @ReactMethod
     public void encryptCard(String cardNumber, String expiryMonth, String expiryYear, String securityCode, String publicKey, final Promise promise) {
