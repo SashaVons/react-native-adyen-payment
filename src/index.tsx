@@ -4,9 +4,9 @@ import type { Card } from './types';
 const AdyenPayment = NativeModules.AdyenPayment;
 
 export const encryptCard = (card: Card, publicToken: string) => {
-  const { cardNumber, cvc, expiryMonth, expiryYear } = card;
+  const { number, cvc, expiryMonth, expiryYear } = card;
   return AdyenPayment.encrypt(
-    cardNumber,
+    number,
     cvc,
     expiryMonth,
     expiryYear,

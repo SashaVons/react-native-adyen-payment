@@ -1,5 +1,5 @@
 export interface Card {
-  cardNumber: string;
+  number: string;
   cvc: string;
   expiryMonth: string;
   expiryYear: string;
