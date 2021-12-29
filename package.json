@@ -1,5 +1,5 @@
 {
-  "name": "react-native-adyen-payment",
+  "name": "react-native-payment-adyen",
   "version": "0.1.0",
   "description": "Native modules for payment",
   "main": "lib/commonjs/index",

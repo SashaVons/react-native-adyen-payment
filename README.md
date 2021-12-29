@@ -4,14 +4,10 @@ Native modules for payment
 
 ## Installation
 
-```sh
-npm install react-native-adyen-payment
-```
-
 ## Usage
 
 ```js
-import { multiply } from "react-native-adyen-payment";
+import { multiply } from 'react-native-adyen-payment';
 
 // ...
 
