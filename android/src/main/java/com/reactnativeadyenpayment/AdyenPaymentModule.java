@@ -41,23 +41,19 @@ public class AdyenPaymentModule extends ReactContextBaseJavaModule {
     // }
 
     @ReactMethod
-    public void encrypt(String holderName, String number, String cvc, String expiryMonth, String expiryYear,
-                        String publicKey, Promise promise) {
-
-        Card card = new Card.Builder()
-                .setHolderName(holderName)
-                .setCvc(cvc)
-                .setExpiryMonth(expiryMonth)
-                .setExpiryYear(expiryYear)
-                .setGenerationTime(new Date())
-                .setNumber(number)
-                .build();
-
-        try {
-            String encryptedCard = card.serialize(publicKey);
-            promise.resolve(encryptedCard);
-        } catch (EncrypterException e) {
-            promise.reject("RN_ADYEN_CSE_ERROR", e);
-        }
+    public void encryptCard(String cardNumber, String expiryMonth, String expiryYear, String securityCode, String publicKey, final Promise promise) {
+        Card.Builder cardBuilder = new Card.Builder();
+        int month = Integer.parseInt(expiryMonth);
+        int year = Integer.parseInt(expiryYear);
+        cardBuilder.setNumber(cardNumber).setExpiryDate(month, year);
+        cardBuilder.setSecurityCode(securityCode);
+        Card card = cardBuilder.build();
+        final EncryptedCard encryptedCard = Encryptor.INSTANCE.encryptFields(card, publicKey);
+        WritableMap resultMap = new WritableNativeMap();
+        resultMap.putString("encryptedCardNumber", encryptedCard.getEncryptedNumber());
+        resultMap.putString("encryptedExpiryMonth", encryptedCard.getEncryptedExpiryMonth());
+        resultMap.putString("encryptedExpiryYear", encryptedCard.getEncryptedExpiryYear());
+        resultMap.putString("encryptedSecurityCode", encryptedCard.getEncryptedSecurityCode());
+        promise.resolve(resultMap);
     }
 }
