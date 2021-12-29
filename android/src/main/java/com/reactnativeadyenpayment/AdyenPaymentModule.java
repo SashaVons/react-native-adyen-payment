@@ -18,6 +18,9 @@ import java.util.Date;
 import com.adyen.checkout.core.api.Environment;
 import com.adyen.checkout.redirect.RedirectConfiguration;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 @ReactModule(name = AdyenPaymentModule.NAME)
 public class AdyenPaymentModule extends ReactContextBaseJavaModule {
     public static final String NAME = "AdyenPayment";
