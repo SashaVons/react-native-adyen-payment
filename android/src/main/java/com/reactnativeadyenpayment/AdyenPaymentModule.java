@@ -48,8 +48,8 @@ public class AdyenPaymentModule extends ReactContextBaseJavaModule {
     return NAME;
   }
 
-   @ReactMethod void openRedirect(String publicKey, Action action) {
-//     ActionComponentData action = ActionComponentData.SERIALIZER.deserialize(paymentResponse);
+   @ReactMethod void openRedirect(String publicKey, JSONObject paymentResponse) {
+     ActionComponentData action = ActionComponentData.SERIALIZER.deserialize(paymentResponse);
      RedirectConfiguration redirectConfiguration = new RedirectConfiguration.Builder(Locale.ENGLISH, Environment.EUROPE)
        .setClientKey(publicKey)
        .build();
