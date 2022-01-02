@@ -1,9 +1,3 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.reactnativeadyenpayment">
-    <intent-filter>
-       <action android:name="android.intent.action.VIEW"/>
-       <category android:name="android.intent.category.DEFAULT"/>
-       <category android:name="android.intent.category.BROWSABLE"/>
-       <data android:host="${applicationId}" android:scheme="adyencheckout"/>
-    </intent-filter>
 </manifest>
