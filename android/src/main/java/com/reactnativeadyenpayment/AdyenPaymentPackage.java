@@ -15,7 +15,7 @@ public class AdyenPaymentPackage implements ReactPackage {
   public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
     // return Arrays.<NativeModule>asList(new RNAdyenCryptModule(reactContext));
     return Arrays.asList(new NativeModule[]{
-      new AdyenPaymentModule(reactContext),
+      new AdyenPaymentModule(reactContext)
     });
   }
 

@@ -57,4 +57,5 @@ dependencies {
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
     implementation 'com.adyen.checkout:cse:3.8.3'
+    implementation "com.adyen.checkout:redirect:3.8.3"
 }

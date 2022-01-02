@@ -14,6 +14,10 @@ export const encryptCard = (card: Card, publicToken: string) => {
   );
 };
 
+export const openRedirect = (data: any, publicKey: string) => {
+  return AdyenPayment.openRedirect(data, publicKey);
+};
+
 export default {
   encryptCard,
 };
