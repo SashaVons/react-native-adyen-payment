@@ -11,6 +11,7 @@ import com.adyen.checkout.redirect.RedirectComponent;
 import com.adyen.checkout.redirect.RedirectConfiguration;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.ReadableMapKeySetIterator;
 import com.facebook.react.module.annotations.ReactModule;
 import com.adyen.checkout.cse.Card;
 import com.adyen.checkout.cse.CardEncryptor;
@@ -27,6 +28,7 @@ import android.app.Application;
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Locale;
@@ -48,8 +50,15 @@ public class AdyenPaymentModule extends ReactContextBaseJavaModule {
     return NAME;
   }
 
-   @ReactMethod void openRedirect(String publicKey, JSONObject paymentResponse) {
-     ActionComponentData action = ActionComponentData.SERIALIZER.deserialize(paymentResponse);
+
+  @ReactMethod void openRedirect(String publicKey, String paymentResponse) {
+    JSONObject redirectData = null;
+    try {
+      redirectData = new JSONObject(paymentResponse);
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+     Action action = Action.SERIALIZER.deserialize(redirectData);
      RedirectConfiguration redirectConfiguration = new RedirectConfiguration.Builder(Locale.ENGLISH, Environment.EUROPE)
        .setClientKey(publicKey)
        .build();
